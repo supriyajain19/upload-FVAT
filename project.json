@@ -1,0 +1,44 @@
+{
+  "name": "Upload_of_Foreign_VAT_Invoices_to_IT_SharePoint",
+  "description": "Upload_of_Foreign_VAT_Invoices_to_IT_SharePoint",
+  "main": "Main.xaml",
+  "dependencies": {
+    "Microsoft.Activities.Extensions": "[2.0.6.9]",
+    "Twilio.Workflow.Activities": "[1.0.0]",
+    "UiPath.Cognitive.Activities": "[2.1.6858.17355]",
+    "UiPath.System.Activities": "[18.4.1]",
+    "UiPath.Credentials.Activities": "[1.1.6479.13204]",
+    "UiPath.Database.Activities": "[1.2.6855.24218]",
+    "UiPath.Excel.Activities": "[2.4.6856.17931]",
+    "UiPath.UIAutomation.Activities": "[18.4.1]",
+    "UiPath.FTP.Activities": "[1.0.6479.13206]",
+    "UiPath.IntelligentOCR.Activities": "[1.1.6855.16979]",
+    "UiPath.Mail.Activities": "[1.1.6562.21018]"
+  },
+  "schemaVersion": "3.2",
+  "studioVersion": "18.1.3.7",
+  "projectVersion": "1.0.7243.18320",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ]
+  },
+  "projectType": "Workflow",
+  "libraryOptions": {
+    "includeOriginalXaml": false,
+    "privateWorkflows": []
+  },
+  "arguments": {
+    "input": [
+      {
+        "name": "OrchestratorQueueName",
+        "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "required": false,
+        "hasDefault": false
+      }
+    ],
+    "output": []
+  }
+}

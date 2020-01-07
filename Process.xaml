@@ -1,0 +1,258 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ProcessTransaction"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_TransactionStartTime" Type="OutArgument(s:DateTime)" />
+    <x:Property Name="out_TransactionEndTime" Type="OutArgument(s:DateTime)" />
+    <x:Property Name="in_arg_year" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_startDate" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_endDate" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_FiscalYear" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_smtpport" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_arg_smtphost" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_username" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_password" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_supportBAS" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_BAS" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_useremail" Type="InArgument(x:String)" />
+    <x:Property Name="in_arg_groupemail" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.IntelligentOCR</AssemblyReference>
+      <AssemblyReference>UiPath.Python</AssemblyReference>
+      <AssemblyReference>UiPath.Word</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Description: In this file all other process specific files will be invoked. If an application exception occurs, the current transaction can be retried. If a BRE is thrown, the transaction will be skipped. Can be a flowchart or sequence. " DisplayName="ProcessTransaction" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="var_emailbody" />
+      <Variable x:TypeArguments="x:String" Name="var_filename" />
+      <Variable x:TypeArguments="x:String" Name="var_filename2" />
+    </Sequence.Variables>
+    <Sequence DisplayName="Process Activities" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+        <Assign.To>
+          <OutArgument x:TypeArguments="s:DateTime">[out_TransactionStartTime]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="s:DateTime">[system.DateTime.Now]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Sequence DisplayName="Process" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="Invoke Code SAP Login Start" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SAPLogin workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Custom Workflows\SAPLogin.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_smtphost">[in_arg_smtphost]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_arg_smtpport">[in_arg_smtpport]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_username">[in_arg_username]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_password">[in_arg_password]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_BAS">[in_arg_BAS]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_supportBAS">[in_arg_supportBAS]</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_useremail">[in_arg_useremail]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_groupemail">[in_arg_groupemail]</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="Invoke Code SAP Login End" />
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="Invoke Code SAP ProcessingStart" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke SAPProcessing workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Custom Workflows\SAPProcessing.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="in_transactionCode1">[in_Config("SAP_TransactionCode1").ToString]</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_transactionCode2">[in_Config("SAP_TransactionCode2").ToString]</InArgument>
+            <OutArgument x:TypeArguments="x:String" x:Key="out_arg_year">[in_arg_year]</OutArgument>
+            <OutArgument x:TypeArguments="x:String" x:Key="out_arg_startDate">[in_arg_startDate]</OutArgument>
+            <OutArgument x:TypeArguments="x:String" x:Key="out_arg_endDate">[in_arg_endDate]</OutArgument>
+            <OutArgument x:TypeArguments="x:String" x:Key="out_arg_FiscalYear">[in_arg_FiscalYear]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="Invoke Code SAP Processing End" />
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="Invoke Code Read Excel File Start" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ReadExcelFile workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Custom Workflows\ReadExcelFile.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_year">[in_arg_year]</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_startDate">[in_arg_startDate]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_endDate">[in_arg_endDate]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_FiscalYear">[in_arg_FiscalYear]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_smtphost">[in_arg_smtphost]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_arg_smtpport">[in_arg_smtpport]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_username">[in_arg_username]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_password">[in_arg_password]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_BAS">[in_arg_BAS]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_supportBAS">[in_arg_supportBAS]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_useremail">[in_arg_useremail]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_groupemail">[in_arg_groupemail]</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="Invoke Code Read Excel File End" />
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="Invoke Code Download Attachement Start" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke DownloadAttachement workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Custom Workflows\DownloadAttachement.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_startDate">[in_arg_startDate]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_endDate">[in_arg_endDate]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_year">[in_arg_year]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_FiscalYear">[in_arg_FiscalYear]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_arg_smtpport">[in_arg_smtpport]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_smtphost">[in_arg_smtphost]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_username">[in_arg_username]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_password">[in_arg_password]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_supportBAS">[in_arg_supportBAS]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_BAS">[in_arg_BAS]</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="Invoke Code Download Attachement End" />
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="Invoke Code Login To SharePoint Start" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke LoginToSharePoint workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Custom Workflows\LoginToSharePoint.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_startDate">[in_arg_startDate]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_endDate">[in_arg_endDate]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_FiscalYear">[in_arg_FiscalYear]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_year">[in_arg_year]</InArgument>
+            <InArgument x:TypeArguments="x:Int32" x:Key="in_arg_smtpport">[in_arg_smtpport]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_smtphost">[in_arg_smtphost]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_username">[in_arg_username]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_password">[in_arg_password]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_BAS">[in_arg_BAS]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_supportBAS">[in_arg_supportBAS]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_useremail">[in_arg_useremail]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_arg_groupemail">[in_arg_groupemail]</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="Invoke Code Login To SharePoint End" />
+      </Sequence>
+      <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+        <Assign.To>
+          <OutArgument x:TypeArguments="s:DateTime">[out_TransactionEndTime]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="s:DateTime">[system.DateTime.Now]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[var_emailbody]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String" xml:space="preserve">["&lt;html&gt;&lt;body &gt;&lt;/body  lang=\EN-US\ &gt;&lt;div&gt;&lt;p&gt;Hi Team,&lt;/p&gt;&lt;p&gt;The Process &lt;b&gt;Upload of Foreign VAT Invoices to IT SharePoint&lt;/b&gt; is completed successfully.&lt;/p&gt;&lt;p&gt;Thanks &amp; Regards&lt;br&gt;BOT CoE Team.&lt;/p&gt;&lt;p&gt;&lt;b&gt;&amp;nbsp;&lt;/b&gt;&lt;/p&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:SendMail Bcc="{x:Null}" From="{x:Null}" MailMessage="{x:Null}" Name="{x:Null}" TimeoutMS="{x:Null}" Body="[var_emailbody]" Cc="[in_arg_BAS]" DisplayName="Send SMTP Mail Message " Email="[in_arg_username]" EnableSSL="True" sap2010:WorkflowViewState.IdRef="SendMail_2" IsBodyHtml="True" Password="[in_arg_password]" Port="[in_arg_smtpport]" SecureConnection="Auto" Server="[in_arg_smtphost]" Subject="[&quot;Successful Completion Of Process&quot;+&quot;||&quot;+ in_Config(&quot;BusinessProcessName&quot;).ToString]" To="[in_arg_groupemail+&quot;;&quot;+in_arg_useremail]">
+      <ui:SendMail.Files>
+        <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4" />
+      </ui:SendMail.Files>
+    </ui:SendMail>
+    <sads:DebugSymbol.Symbol>d3BDOlxVc2Vyc1xtbWljaGVsZVxEZXNrdG9wXFVwbG9hZF9Gb3JlZ2luX1ZBVF9JbnZvaWNlc190b19JVF9TaGFyZVBvaW50MVxWTXdhcmUgUmVGcmFtZVdvcmsgVGVtcGxhdGVcUHJvY2Vzcy54YW1sZ1gD0wEOAgEBXgXEARACARjFAQXMAQ4CARTNAQXRARMCAQJfB2YQAwGmAWcHuwESAgEdvAEHwwEQAgEZxwExxwFAAgEVzQGPBM0BwwQCARHNAYcBzQGVAQIBD80Bcs0BgwECAQ3NAZcDzQGLBAIBC80BwgHNAdUBAgEJzQHIAs0B2wICAQfNAfsCzQGOAwIBBc0BrwLNAcICAgEDZDRkSQMBqQFhNWFPAwGnAWgJaJYBAwGkAWkJdSEDAZABdgl2lAEDAY4Bdwl3mgEDAYwBeAmCASECAXyDAQmDAZkBAgF6hAEJhAGcAQIBeIUBCZUBIQIBXJYBCZYBmgECAVqXAQmXAaEBAgFYmAEJpgEhAgFApwEJpwGfAQIBPqgBCagBoAECATypAQm5ASECASC6AQm6AZ8BAgEewQE0wQFJAgEcvgE1vgFNAgEaaHZokwEDAaUBc05zYQMBogFtTG1dAwGgAW5Mbl0DAZ4BbEtsXAMBnAFwTnBhAwGaAWtMa10DAZgBb0dvUwMBlgFpuQFp2QEDAZUBck1yXwMBkwFxYHFrAwGRAXZ2dpEBAwGPAXd2d5cBAwGNAX1KfVcDAYoBgAFQgAFjAwGIAXxQfHwDAYYBelB6fAMBhAF/TX9dAwGCAX5PfmEDAYABeL4BeOMBAgF/e2B7awIBfYMBdoMBlgECAXuEAXaEAZkBAgF5kwFOkwFhAgF2igFLigFbAgF0iwFOiwFhAgFyiQFNiQFfAgFwjgFMjgFdAgFujwFMjwFdAgFsjQFLjQFcAgFqkQFOkQFhAgFojAFMjAFdAgFmhwFIhwFVAgFkkAFHkAFTAgFihQG+AYUB4wECAWGSAU2SAV8CAV+IAWCIAWsCAV2WAXaWAZcBAgFblwF2lwGeAQIBWZwBS5wBWwIBVp4BTp4BYQIBVJsBTZsBXwIBUqEBTKEBXQIBUKIBTKIBXQIBTp8BS58BXAIBTKMBTqMBYQIBSqABTKABXQIBSJ0BSJ0BVQIBRqQBR6QBUwIBRJgBxAGYAe8BAgFDmgFgmgFrAgFBpwF2pwGcAQIBP6gBdqgBnQECAT23AU63AWECATqtAUutAVsCATiuAU6uAWECATasAU2sAV8CATSyAUyyAV0CATKzAUyzAV0CATCwAUuwAVwCAS61AU61AWECASyxAUyxAV0CASqvAUivAVUCASi0AUe0AVMCASapAcIBqQHrAQIBJbYBTbYBXwIBI6sBYKsBawIBIboBd7oBnAECAR8=</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="336.8,60" />
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_1" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="LogMessage_2" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="LogMessage_3" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_2" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="LogMessage_4" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="LogMessage_5" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_3" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="LogMessage_6" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="LogMessage_7" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_4" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="LogMessage_8" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="LogMessage_9" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_5" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="LogMessage_10" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="336.8,2052.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="336.8,60" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="359.2,2377.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="359.2,60" />
+      <sap2010:ViewStateData Id="SendMail_2" sap:VirtualizedContainerService.HintSize="359.2,146.4" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="381.6,2864.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ProcessTransaction_1" sap:VirtualizedContainerService.HintSize="421.6,2944.8" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
